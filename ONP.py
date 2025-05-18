@@ -1,54 +1,93 @@
-"""Algorithm for the below approach is as follows:
+'''ONP - Transform the Expression
+Transform the algebraic expression with brackets into RPN form (Reverse Polish Notation). Two-argument operators: +, -, *, /, ^ (priority from the lowest to the highest), brackets ( ). Operands: only letters: a, b ... z. Assume that there is only one RPN form (no expressions like a*b*c).
 
-X is input string and Y is output string.
-Step 1: Scan X from left to right until its end.
-Step 2: If element is operand add to Y.
-Step 3: If element is "(" push to stack.
-Step 4: If element is operator:
-    a.) Repeatedly pop from stack and add to Y each operator which has same or higher precendence than the element operator.
-    b.) Add element operaor to stack.
-Step 5.) If element is ")":
-    a.) Repeatedly pop from stack & add to Y until "(" is encountered.
-    b.) Remove "(" from the stack."""
+Input
+t [the number of expressions <= 100]
+expression [length <= 400]
+[other expressions]
+Text grouped in [ ] does not appear in the input file.
+
+Output
+The expressions in RPN form, one per line.
+
+Example
+Input:
+3
+(a+(b*c))
+((a+b)*(z+x))
+((a+t)*((b+(a+c))^(c+d)))
+
+Output:
+abc*+
+ab+zx+*
+at+bac++cd+^*
 
 
-operators=["+", "-", "*", "/", "^"]
-precedence={"+":0, "-":1, "*":2, "/":3, "^":4}
-alpha='abcdefghijklmnopqrstuvwxyz'
+ChatGPT said:
+To solve the ONP - Transform the Expression problem, you need to convert an infix expression (e.g. (a+(b*c))) into postfix expression (also known as Reverse Polish Notation, or RPN).
 
-def preCheck(op1,op2):
-    if precedence[op1]>=precedence[op2]:
-        return True
-    else: return False
+This is a classic problem solved using a stack, often with the Shunting Yard algorithm.
+
+✅ Operator Precedence and Associativity
+Operator	Precedence	Associativity
++ -	1	Left
+* /	2	Left
+^	3	Right
+
+✅ Algorithm (Simplified for This Problem):
+Operands (a–z): Add directly to the output.
+
+Left Parenthesis (: Push to stack.
+
+Right Parenthesis ): Pop from stack to output until ( is found (discard ().
+
+Operators:
+
+While top of stack is an operator and has higher precedence (or same precedence if left-associative), pop it to output.
+
+Then push current operator.'''
+
+def precedence(op):
+    if op == '+' or op == '-':
+        return 1
+    if op == '*' or op == '/':
+        return 2
+    if op == '^':
+        return 3
+    return 0
+
+def is_right_associative(op):
+    return op == '^'
+
+def infix_to_postfix(expression):
+    stack = []
+    output = []
+    for ch in expression:
+        if ch.isalpha():
+            output.append(ch)
+        elif ch == '(':
+            stack.append(ch)
+        elif ch == ')':
+            while stack and stack[-1] != '(':
+                output.append(stack.pop())
+            stack.pop()  # remove '('
+        else:  # operator
+            while (stack and stack[-1] != '(' and
+                   (precedence(stack[-1]) > precedence(ch) or
+                   (precedence(stack[-1]) == precedence(ch) and not is_right_associative(ch)))):
+                output.append(stack.pop())
+            stack.append(ch)
     
-def main():
-    t=input()
-    for i in range(t):
-        X=raw_input()
-        stack=[]
-        Y=''
-        for e in X:
-            if e== "(":
-                stack.append(e)
-            elif e in alpha:
-                Y+=e
-            elif e in operators:
-                while stack[-1] in operators:
-                    if preCheck(stack[-1],e):
-                        Y+=stack.pop()
-                stack.append(e)
-            elif e==')':
-                while not stack[-1]=='(':
-                    Y+=stack.pop()
-                stack.pop()
-            
-        while not len(stack)==0:
-            if stack[-1]=='(':
-                stack.pop()
-            else:
-                Y+=stack.pop() 
-                
-        print Y
-                       
+    while stack:
+        output.append(stack.pop())
 
-main()
+    return ''.join(output)
+
+# Read input
+t = int(input())
+for _ in range(t):
+    expr = input().strip()
+    print(infix_to_postfix(expr))
+
+
+
