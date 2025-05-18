@@ -1,4 +1,3 @@
-# SPOJ_Solutions_in_python
 # 🚀 SPOJ Solutions in Python
 
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue?logo=python&logoColor=white&style=for-the-badge)](https://www.python.org/)
@@ -7,8 +6,6 @@
 [![Code Quality](https://img.shields.io/badge/Code%20Quality-Excellent-brightgreen?style=for-the-badge)](#)
 
 Welcome to your ultimate collection of **SPOJ** problem solutions written in **Python**! 🐍 Test your skills, learn new techniques, and ace those coding challenges effortlessly.
-
----
 
 ## 📚 Table of Contents
 
@@ -23,8 +20,6 @@ Welcome to your ultimate collection of **SPOJ** problem solutions written in **P
 This repository is a curated set of solutions to a variety of problems hosted on [Sphere Online Judge (SPOJ)](https://www.spoj.com/).
 
 Each solution is crafted with Python, focusing on clean and efficient approaches to algorithms and data structures. Whether you're here to practice or find inspiration, you'll find ready-to-run examples with clear explanations.
-
----
 
 ## 🚀 Getting Started
 
